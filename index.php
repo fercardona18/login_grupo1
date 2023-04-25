@@ -1,19 +1,5 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
-=======
 <?php
-
+session_start();
 
 if(isset($_SESSION['correo_electronico'])) {
   header("Location: home.php");
@@ -25,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $contrasena = $_POST['password'];
 
   // Conexión a la base de datos
-  $conn = mysqli_connect('localhost', 'root', '', 'word');
+  $conn = mysqli_connect('localhost', 'root', '', 'login');
   if (!$conn) {
     die("Conexión fallida: " . mysqli_connect_error());
   }
@@ -78,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
 					</div>
 					<div class="card-footer text-center">
-						<p>¿No tienes cuenta? <a href="#">Regístrate aquí</a></p>
+						<p><a href="#">Restablecer contraseña</a></p>
             <p class="text-danger"><?php echo $error;?></p>
 					</div>
 				</div>
@@ -87,6 +73,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script
+</html>
 
->>>>>>> kevin
