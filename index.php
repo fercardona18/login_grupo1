@@ -1,29 +1,33 @@
 <?php
-session_start();
 
-if(isset($_SESSION['correo_electronico'])) {
+if (isset($_SESSION['email'])) {
   header("Location: home.php");
+  exit;
 }
 
 $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $correo_electronico = $_POST['email'];
-  $contrasena = $_POST['password'];
+  $contrasena = $_POST['password_user'];
 
   // Conexión a la base de datos
-  $conn = mysqli_connect('localhost', 'root', '', 'login');
+  $conn = mysqli_connect('localhost', 'root', '', 'grupo2');
   if (!$conn) {
     die("Conexión fallida: " . mysqli_connect_error());
   }
 
   // Verificar el inicio de sesión
-  $query = "SELECT * FROM login_db WHERE correo_electronico='$correo_electronico' AND contrasena='$contrasena'";
+  $query = "SELECT * FROM tbl_users WHERE email='$correo_electronico' AND password_user=SHA2('$contrasena', 256) AND status_user='active'";
   $result = mysqli_query($conn, $query);
   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
   if (mysqli_num_rows($result) == 1) {
-    $_SESSION['correo_electronico'] = $correo_electronico;
+    $_SESSION['email'] = $correo_electronico;
+    $_SESSION['id_user'] = $row['id_user'];
+    $_SESSION['id_role'] = $row['id_role'];
+    $_SESSION['id_positions'] = $row['id_positions'];
     header("Location: home.php");
+    exit;
   } else {
     $error = "El correo electrónico o la contraseña son incorrectos.";
   }
@@ -58,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </div>
               <div class="form-group">
                 <label for="password">Contraseña:</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                <input type="password" class="form-control" id="password_user" name="password_user" placeholder="Ingresa tu contraseña" required>
               </div>
               <button type="submit" class="btn btn-primary btn-block mt-4">Iniciar sesión</button>
             </form>
@@ -73,5 +77,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-</html>
+	<script
 
